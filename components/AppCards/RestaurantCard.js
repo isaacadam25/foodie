@@ -13,7 +13,7 @@ const RestaurantCard = ({ item }) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('Restaurant')}
+      onPress={() => navigation.navigate('Restaurant', { item })}
     >
       <Image
         style={styles.image}
@@ -21,22 +21,20 @@ const RestaurantCard = ({ item }) => {
         resizeMode="stretch"
       />
       <View>
-        <Text style={styles.titleText}>{/* {item.name} */}Burger 53</Text>
-        <Text style={styles.subtitleText}>
-          {/* {item.description} */}Some Description Here
-        </Text>
+        <Text style={styles.titleText}>{item.title}</Text>
+        <Text style={styles.subtitleText}>{item.subTitle}</Text>
         <View style={styles.bottomText}>
           <Text style={styles.commonText}>
             <Ionicons name="star-outline" size={14} color="black" />
-            {/* {item.rating} */} 4
+            {item.rating}
           </Text>
           <Text style={styles.commonText}>
             <Ionicons name="time-outline" size={14} color="black" />
-            {/* {item.delivery_time} */} 10 mins
+            {item.delivery_time}
           </Text>
           <Text style={styles.commonText}>
             <MaterialIcons name="money" size={14} color="black" />
-            {/* {item.price_range} */} 5 FOR TWO
+            {item.price_range} FOR TWO
           </Text>
         </View>
       </View>

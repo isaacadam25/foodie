@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 
 /* components imports */
 import ExploreCard from '../components/AppCards/ExploreCard';
@@ -45,6 +46,8 @@ const DATA = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const hotels = useSelector((state) => state.hotel.hotels);
+
   const [restaurants, setRestaurants] = useState([]);
 
   const renderFeaturedCard = ({ item }) => <ExploreCard title={item.title} />;
@@ -103,7 +106,7 @@ const HomeScreen = ({ navigation }) => {
 
       <View style={styles.mainArea}>
         <FlatList
-          data={DATA}
+          data={hotels}
           renderItem={renderRestaurantCard}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={ItemSepator}

@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 /* Component Imports */
 import AlertScreen from './screens/AlertScreen';
@@ -111,6 +112,7 @@ const BottomNavigator = () => (
         tabBarIcon: ({ size, color }) => (
           <MaterialCommunityIcons name="cart-outline" size={24} color="black" />
         ),
+        tabBarBadge: useSelector((state) => state.cart.total),
       }}
     />
     <BottomTabs.Screen
@@ -127,8 +129,10 @@ const BottomNavigator = () => (
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <BottomNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <BottomNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }

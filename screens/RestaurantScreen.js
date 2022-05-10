@@ -12,6 +12,7 @@ import {
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
+import { useSelector } from 'react-redux';
 
 /* Icon imports */
 import { Entypo } from '@expo/vector-icons';
@@ -45,7 +46,10 @@ const DATA = [
 
 const RestaurantScreen = ({ route }) => {
   // const [lunchFoods, setlunchFoods] = useState([]);
-  // const { slug } = route.params;
+  const { item } = route.params;
+
+  const restaurantFoods = useSelector((state) => state.food.foods);
+  console.log(restaurantFoods);
 
   const renderRecommendedCard = () => <RecommendedCard />;
 
@@ -64,7 +68,7 @@ const RestaurantScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <RestaurantCard />
+        <RestaurantCard item={item} />
         <View style={styles.recommendationContainer}>
           <Text style={styles.recommendationText}>Recommended</Text>
           <FlatList

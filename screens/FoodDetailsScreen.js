@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addToCart, removeFromCart } from '../features/cart/cartSlice';
 
 /* components imports */
 import RestaurantCard from '../components/AppCards/RestaurantCard';
@@ -9,17 +12,18 @@ import AppBadge from '../components/Badges/AppBadge';
 import colors from '../config/colors';
 
 const FoodDetailsScreen = () => {
+  const dispatch = useDispatch();
+
   const handleAddToCart = () => {
-    console.log('Item Added To Cart');
+    dispatch(addToCart());
   };
 
   const handleRemoveFromCart = () => {
-    console.log('Item Removed From Cart');
+    dispatch(removeFromCart());
   };
 
   return (
     <View style={styles.container}>
-      <RestaurantCard />
       <View style={styles.imageContainer}>
         <Image
           style={styles.foodImage}
