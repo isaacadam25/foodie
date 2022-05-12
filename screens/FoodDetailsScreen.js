@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { addToCart, removeFromCart } from '../features/cart/cartSlice';
 
+/* API imports */
+import { getSingleRestaurantItem } from '../api/restaurants/restaurantServices';
+
 /* components imports */
 import RestaurantCard from '../components/AppCards/RestaurantCard';
 import AppBadge from '../components/Badges/AppBadge';

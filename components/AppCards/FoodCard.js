@@ -8,14 +8,14 @@ import AppBadge from '../Badges/AppBadge';
 /* colors imports */
 import colors from '../../config/colors';
 
-const FoodCard = ({ name, image, price }) => {
+const FoodCard = ({ name, image, price, id }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.cardContainer}
-      onPress={() => navigation.navigate('FoodDetails')}
+      onPress={() => navigation.navigate('FoodDetails', { id: id })}
     >
-      <Image style={styles.image} source={require('../../assets/food.jpg')} />
+      <Image style={styles.image} source={image} />
       <View>
         <Text style={styles.foodText}>{name}</Text>
         <AppBadge title="Recommended" />
@@ -64,9 +64,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     paddingHorizontal: 4,
+    paddingVertical: 5,
   },
   priceText: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '900',
     paddingHorizontal: 4,
     paddingVertical: 4,

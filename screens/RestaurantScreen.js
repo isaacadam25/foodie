@@ -7,20 +7,19 @@ import {
   Text,
   ScrollView,
 } from 'react-native';
-import {
-  Collapse,
-  CollapseHeader,
-  CollapseBody,
-} from 'accordion-collapse-react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-/* Icon imports */
-import { Entypo } from '@expo/vector-icons';
+/* Redux */
+import {
+  setLunchFoods,
+  setDinnerFoods,
+  setDrinks,
+} from '../features/foods/foodSlice';
 
 /* components imports */
+import Accordion from '../components/Accordion/Accordion';
 import RestaurantCard from '../components/AppCards/RestaurantCard';
 import RecommendedCard from '../components/AppCards/RecommendedCard';
-import FoodCard from '../components/AppCards/FoodCard';
 
 /* api data */
 import { getDeliveryRestaurantFoodItems } from '../api/restaurants/restaurantServices';
@@ -48,22 +47,28 @@ const RestaurantScreen = ({ route }) => {
   // const [lunchFoods, setlunchFoods] = useState([]);
   const { item } = route.params;
 
-  const restaurantFoods = useSelector((state) => state.food.foods);
-  console.log(restaurantFoods);
+  const dispatch = useDispatch();
 
-  const renderRecommendedCard = () => <RecommendedCard />;
+  const lunchFoods = useSelector((state) => state.food.lunchFoods);
+  const dinnerFoods = useSelector((state) => state.food.dinnerFoods);
+  const drinks = useSelector((state) => state.food.drinks);
 
-  // const renderFoodCard = () => <FoodCard />;
-
-  // const getFoods = async () => {
-  //   const response = await getDeliveryRestaurantFoodItems({ slug });
-  //   setlunchFoods(response.data.items.lunch);
-  //   console.log(lunchFoods);
-  // };
+  const getFoods = async () => {
+    const response = await getDeliveryRestaurantFoodItems({
+      slug: 'foodie-o2ubvpxhqjvzcab',
+    });
+    dispatch(setLunchFoods(response.data.items.lunch));
+    dispatch(setDinnerFoods(response.data.items.dinner));
+    dispatch(setDrinks(response.data.items.drinks));
+  };
 
   useEffect(() => {
-    // getFoods();
+    getFoods();
   }, []);
+
+  const renderRecommendedCard = () => <RecommendedCard />;
+  const renderAccordion = (items) =>
+    items && items.map((item, index) => <Accordion item={item} key={index} />);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -80,72 +85,9 @@ const RestaurantScreen = ({ route }) => {
           />
         </View>
         <View style={{ flex: 0.4 }}>
-          <Collapse isExpanded>
-            <CollapseHeader>
-              <View style={styles.accordionHeader}>
-                <Text style={styles.accordionText}>Breakfast</Text>
-                <Entypo name="chevron-down" size={18} color="black" />
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <ScrollView>
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-              </ScrollView>
-            </CollapseBody>
-          </Collapse>
-          <Collapse isExpanded>
-            <CollapseHeader>
-              <View style={styles.accordionHeader}>
-                <Text style={styles.accordionText}>Lunch</Text>
-                <Entypo name="chevron-down" size={18} color="black" />
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <ScrollView>
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-              </ScrollView>
-            </CollapseBody>
-          </Collapse>
-          <Collapse isExpanded>
-            <CollapseHeader>
-              <View style={styles.accordionHeader}>
-                <Text style={styles.accordionText}>Dinner</Text>
-                <Entypo name="chevron-down" size={18} color="black" />
-              </View>
-            </CollapseHeader>
-            <CollapseBody>
-              <ScrollView>
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-                <FoodCard
-                  name="Wali Maharage"
-                  image={require('../assets/food.jpg')}
-                  price="4000"
-                />
-              </ScrollView>
-            </CollapseBody>
-          </Collapse>
+          {renderAccordion(drinks)}
+          {renderAccordion(lunchFoods)}
+          {renderAccordion(dinnerFoods)}
         </View>
       </ScrollView>
     </SafeAreaView>
